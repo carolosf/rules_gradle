@@ -68,4 +68,12 @@ def _directory_select_impl(ctx):
         outputs = [output_dir]
     )
 
+directory_select = rule(
+    implementation = _directory_select_impl,
+    attrs = {
+        "srcs": attr.label_list(allow_files = True),
+        "source_path": attr.string(mandatory = True),
+        "out" : attr.output(),
+    }
+)
 
