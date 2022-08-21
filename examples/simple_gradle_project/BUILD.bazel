@@ -1,0 +1,15 @@
+filegroup(
+    name = "gradle-build-metadata",
+    srcs = glob([
+        "build.gradle.kts",
+        "settings.gradle.kts",
+        "gradle.properties"
+    ])
+)
+
+load("@//:rules_gradle.bzl", "gradle_build")
+gradle_build(
+    name = "project",
+    srcs = [":gradle-build-metadata"] + glob(["src/**"]),
+    gradle = "@rules_gradle//:gradle"
+)
