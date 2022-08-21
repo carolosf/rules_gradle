@@ -6,7 +6,7 @@ Doesn't offer caching but at least this is compatible with all gradle projects a
 developers to build gradle projects inside of a bazel mono repo.
 
 For examples on how to use see
-[simple gradle example](examples/BUILD.bazel)
+[simple gradle example](examples/simple_gradle_project/BUILD.bazel)
 
 Please not that you need to choose a different name for your BUILD file e.g. BUILD.bazel otherwise the gradle build directory clashes with the BUILD file.
 
