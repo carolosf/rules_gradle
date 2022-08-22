@@ -63,10 +63,14 @@ def _directory_select_impl(ctx):
     ctx.actions.run_shell(
         mnemonic = "DirectorySelect",
         # TODO: Probably need some sanity checking here to make sure element 0 exists and is a directory and not a file etc.
-        command = "mv " + ctx.files.srcs[0].path + "/" + ctx.attr.source_path + "/*" + output_dir.path + "/",
+        command = "mv " + ctx.files.srcs[0].path + "/" + ctx.attr.source_path + "/* " + output_dir.path + "/",
         inputs = inputs,
         outputs = [output_dir]
     )
+
+    return [
+        DefaultInfo(files = depset([output_dir]))
+    ]
 
 directory_select = rule(
     implementation = _directory_select_impl,

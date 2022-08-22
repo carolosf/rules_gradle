@@ -8,8 +8,30 @@ filegroup(
 )
 
 load("@//:rules_gradle.bzl", "gradle_build")
+# From root dir build with `bazel build examples/simple_gradle_project:project`
+# optional params for debugging --sandbox_debug --verbose_failures
 gradle_build(
     name = "project",
     srcs = [":gradle-build-metadata"] + glob(["src/**"]),
     gradle = "@rules_gradle//:gradle"
+)
+load("@rules_gradle//:rules_gradle.bzl", "directory_select")
+
+directory_select(
+    # Name will be used in strip_prefix for pkg_tar
+    name = "get_build_quarkus_app_dir",
+    srcs = [":project"],
+    # Testing getting only libs directory from  build/libs
+    source_path = "libs"
+)
+
+# Test rule for debugging
+# From root dir build with `bazel build examples/simple_gradle_project:debug_dir_layout`
+genrule(
+    name = "debug_dir_layout",
+    srcs = [":get_build_quarkus_app_dir"],
+    outs = ["file.txt"],
+    cmd = """
+    find . > $(location file.txt)
+    """,
 )
